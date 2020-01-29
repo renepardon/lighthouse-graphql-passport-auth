@@ -10,7 +10,7 @@ return [
     | support the password grant
     |
     */
-    'client_id' => env('PASSPORT_CLIENT_ID', '1'),
+    'client_id'     => env('PASSPORT_CLIENT_ID', '1'),
     /*
     |--------------------------------------------------------------------------
     | Client secret
@@ -30,7 +30,7 @@ return [
     | the default location
     |
     */
-    'schema' => null,
+    'schema'        => null,
     /*
     |--------------------------------------------------------------------------
     | Username Column
@@ -40,7 +40,7 @@ return [
     | the user.
     |
     */
-    'username' => 'email',
+    'username'      => 'email',
     /*
     |--------------------------------------------------------------------------
     | Migrations
@@ -50,7 +50,7 @@ return [
     | If you publish the migrations set this to false.
     |
     */
-    'migrations' => true,
+    'migrations'    => true,
     /*
     |--------------------------------------------------------------------------
     | Settings for email verification
@@ -59,8 +59,8 @@ return [
     | Update this values for your use case
     |
     */
-    'verify_email' => [
-        'base_url' => env('FRONT_URL').'/email-verify',
+    'verify_email'  => [
+        'base_url' => env('FRONT_URL') . '/email-verify',
     ],
 
 ];

@@ -1,19 +1,20 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Notifications;
+namespace Renepardon\LighthouseGraphQLPassport\Notifications;
 
+use Illuminate\Auth\Notifications\VerifyEmail as IlluminateVerifyEmail;
 use Illuminate\Support\Carbon;
 
-class VerifyEmail extends \Illuminate\Auth\Notifications\VerifyEmail
+class VerifyEmail extends IlluminateVerifyEmail
 {
     /**
-     * Get the verification URL for the given notifiable.
+     * Get the verification URL for the given notifiable
      *
      * @param mixed $notifiable
      *
      * @return string
      */
-    protected function verificationUrl($notifiable)
+    protected function verificationUrl($notifiable): string
     {
         $payload = base64_encode(json_encode([
             'id'         => $notifiable->getKey(),
@@ -21,6 +22,6 @@ class VerifyEmail extends \Illuminate\Auth\Notifications\VerifyEmail
             'expiration' => encrypt(Carbon::now()->addMinutes(10)->toIso8601String()),
         ]));
 
-        return config('lighthouse-graphql-passport.verify_email.base_url').'?token='.$payload;
+        return config('lighthouse-graphql-passport.verify_email.base_url') . '?token=' . $payload;
     }
 }

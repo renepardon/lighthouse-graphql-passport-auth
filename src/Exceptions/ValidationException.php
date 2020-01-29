@@ -1,24 +1,24 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
+namespace Renepardon\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
 use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
 
-/**
- * Class ValidationException.
- */
 class ValidationException extends Exception implements RendersErrorsExtensions
 {
     /**
-     * @var
+     * @var array|mixed
      */
     public $errors;
 
     /**
-     * ValidationException constructor.
-     *
-     * @param $validator
+     * @var string
+     */
+    protected $category = 'validation';
+
+    /**
+     * @param        $errors
      * @param string $message
      */
     public function __construct($errors, string $message = '')
@@ -27,13 +27,6 @@ class ValidationException extends Exception implements RendersErrorsExtensions
 
         $this->errors = $errors;
     }
-
-    /**
-     * The category.
-     *
-     * @var string
-     */
-    protected $category = 'validation';
 
     /**
      * Returns true when exception message is safe to be displayed to a client.

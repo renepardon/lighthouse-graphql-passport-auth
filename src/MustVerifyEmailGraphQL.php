@@ -1,17 +1,12 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport;
+namespace Renepardon\LighthouseGraphQLPassport;
 
-use Joselfonseca\LighthouseGraphQLPassport\Notifications\VerifyEmail;
+use Renepardon\LighthouseGraphQLPassport\Notifications\VerifyEmail;
 
 trait MustVerifyEmailGraphQL
 {
-    /**
-     * Send the email verification notification.
-     *
-     * @return void
-     */
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmail());
     }

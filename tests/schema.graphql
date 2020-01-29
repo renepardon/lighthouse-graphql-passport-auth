@@ -1,4 +1,4 @@
-type User @model(class: "Joselfonseca\\LighthouseGraphQLPassport\\Tests\\User"){
+type User @model(class: "Renepardon\\LighthouseGraphQLPassport\\Tests\\User"){
     id: ID!
     name: String!
     email: String!
@@ -9,5 +9,5 @@ type Query {
 }
 
 type Mutation {
-    createUser: User @create(model: "Joselfonseca\\LighthouseGraphQLPassport\\Tests\\User")
+    createUser: User @create(model: "Renepardon\\LighthouseGraphQLPassport\\Tests\\User")
 }

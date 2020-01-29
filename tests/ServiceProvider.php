@@ -1,6 +1,6 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
+namespace Renepardon\LighthouseGraphQLPassport\Tests;
 
 use Laravel\Passport\Passport;
 

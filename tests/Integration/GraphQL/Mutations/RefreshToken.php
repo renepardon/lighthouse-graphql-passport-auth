@@ -1,9 +1,9 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
+namespace Renepardon\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
-use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
+use Renepardon\LighthouseGraphQLPassport\Tests\TestCase;
+use Renepardon\LighthouseGraphQLPassport\Tests\User;
 
 class RefreshToken extends TestCase
 {

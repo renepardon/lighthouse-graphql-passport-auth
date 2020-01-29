@@ -1,6 +1,6 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
+namespace Renepardon\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\Events\PasswordReset;
@@ -19,14 +19,14 @@ class ResetPassword
     use ValidatesRequests;
 
     /**
-     * @param $rootValue
+     * @param                     $rootValue
      * @param array               $args
      * @param GraphQLContext|null $context
      * @param ResolveInfo         $resolveInfo
      *
      * @return array
      */
-    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo = null)
     {
         $args = collect($args)->except('directive')->toArray();
         $response = $this->broker()->reset($args, function ($user, $password) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
+namespace Renepardon\LighthouseGraphQLPassport\GraphQL\Mutations;
 
-use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use Nuwave\Lighthouse\Exceptions\AuthenticationException;
 
 /**
@@ -36,11 +36,15 @@ class BaseAuthResolver
      */
     public function makeRequest(array $credentials)
     {
-        $request = Request::create('oauth/token', 'POST', $credentials, [], [], [
-            'HTTP_Accept' => 'application/json',
-        ]);
-        $response = app()->handle($request);
-        $decodedResponse = json_decode($response->getContent(), true);
+        $client = new Client(['base_uri' => config('app.url')]);
+        $response = $client->post('/oauth/token', [
+                'form_params' => $credentials,
+                'headers'     => ['Accept' => 'application/json',],
+            ]
+        );
+
+        $decodedResponse = json_decode($response->getBody()->getContents(), true);
+
         if ($response->getStatusCode() != 200) {
             throw new AuthenticationException($decodedResponse['message']);
         }

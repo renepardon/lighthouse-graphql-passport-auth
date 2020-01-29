@@ -1,6 +1,6 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\OAuthGrants;
+namespace Renepardon\LighthouseGraphQLPassport\OAuthGrants;
 
 use DateInterval;
 use Illuminate\Http\Request;
@@ -16,27 +16,52 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class SocialGrant extends AbstractGrant
 {
-    public function __construct(UserRepositoryInterface $userRepository, RefreshTokenRepositoryInterface $refreshTokenRepository)
-    {
+    /**
+     * @param \League\OAuth2\Server\Repositories\UserRepositoryInterface         $userRepository
+     * @param \League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface $refreshTokenRepository
+     *
+     * @throws \Exception
+     */
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        RefreshTokenRepositoryInterface $refreshTokenRepository
+    ) {
         $this->setUserRepository($userRepository);
         $this->setRefreshTokenRepository($refreshTokenRepository);
         $this->refreshTokenTTL = new DateInterval('P1M');
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Psr\Http\Message\ServerRequestInterface                  $request
+     * @param \League\OAuth2\Server\ResponseTypes\ResponseTypeInterface $responseType
+     * @param \DateInterval                                             $accessTokenTTL
+     *
+     * @return \League\OAuth2\Server\ResponseTypes\ResponseTypeInterface
+     * @throws \League\OAuth2\Server\Exception\OAuthServerException
+     * @throws \League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException
      */
-    public function respondToAccessTokenRequest(ServerRequestInterface $request, ResponseTypeInterface $responseType, DateInterval $accessTokenTTL)
-    {
+    public function respondToAccessTokenRequest(
+        ServerRequestInterface $request,
+        ResponseTypeInterface $responseType,
+        DateInterval $accessTokenTTL
+    ): ResponseTypeInterface {
         // Validate request
         $client = $this->validateClient($request);
         $scopes = $this->validateScopes($this->getRequestParameter('scope', $request));
         $user = $this->validateUser($request);
+
         // Finalize the requested scopes
-        $scopes = $this->scopeRepository->finalizeScopes($scopes, $this->getIdentifier(), $client, $user->getIdentifier());
+        $scopes = $this->scopeRepository->finalizeScopes(
+            $scopes,
+            $this->getIdentifier(),
+            $client,
+            $user->getIdentifier()
+        );
+
         // Issue and persist new tokens
         $accessToken = $this->issueAccessToken($accessTokenTTL, $client, $user->getIdentifier(), $scopes);
         $refreshToken = $this->issueRefreshToken($accessToken);
+
         // Inject tokens into response
         $responseType->setAccessToken($accessToken);
         $responseType->setRefreshToken($refreshToken);
@@ -45,24 +70,17 @@ class SocialGrant extends AbstractGrant
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getIdentifier()
-    {
-        return 'social_grant';
-    }
-
-    /**
-     * @param ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      *
-     * @throws OAuthServerException
+     * @throws \League\OAuth2\Server\Exception\OAuthServerException
      *
-     * @return UserEntityInterface
+     * @return \League\OAuth2\Server\Entities\UserEntityInterface
      */
-    protected function validateUser(ServerRequestInterface $request)
+    protected function validateUser(ServerRequestInterface $request): UserEntityInterface
     {
         $laravelRequest = new Request($request->getParsedBody());
         $user = $this->getUserEntityByRequest($laravelRequest);
+
         if (false === $user instanceof UserEntityInterface) {
             $this->getEmitter()->emit(new RequestEvent(RequestEvent::USER_AUTHENTICATION_FAILED, $request));
 
@@ -73,15 +91,11 @@ class SocialGrant extends AbstractGrant
     }
 
     /**
-     * Retrieve user by request.
-     *
      * @param \Illuminate\Http\Request $request
      *
-     * @throws \League\OAuth2\Server\Exception\OAuthServerException
-     *
-     * @return null|\Laravel\Passport\Bridge\User
+     * @return \League\OAuth2\Server\Entities\UserEntityInterface|null
      */
-    protected function getUserEntityByRequest(Request $request)
+    protected function getUserEntityByRequest(Request $request): ?UserEntityInterface
     {
         if (is_null($model = config('auth.providers.users.model'))) {
             throw OAuthServerException::serverError('Unable to determine user model from configuration.');
@@ -93,5 +107,13 @@ class SocialGrant extends AbstractGrant
         }
 
         return ($user) ? new User($user->id) : null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier(): string
+    {
+        return 'social_grant';
     }
 }

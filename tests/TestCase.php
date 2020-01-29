@@ -1,8 +1,8 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
+namespace Renepardon\LighthouseGraphQLPassport\Tests;
 
-use Joselfonseca\LighthouseGraphQLPassport\Providers\LighthouseGraphQLPassportServiceProvider;
+use Renepardon\LighthouseGraphQLPassport\Providers\LighthouseGraphQLPassportServiceProvider;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider;

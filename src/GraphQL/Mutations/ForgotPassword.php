@@ -1,6 +1,6 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
+namespace Renepardon\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -12,7 +12,7 @@ class ForgotPassword
     use SendsPasswordResetEmails;
 
     /**
-     * @param $rootValue
+     * @param                                                          $rootValue
      * @param array                                                    $args
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext|null $context
      * @param \GraphQL\Type\Definition\ResolveInfo                     $resolveInfo
@@ -21,9 +21,10 @@ class ForgotPassword
      *
      * @return array
      */
-    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo = null)
     {
         $response = $this->broker()->sendResetLink(['email' => $args['email']]);
+
         if ($response == Password::RESET_LINK_SENT) {
             return [
                 'status'  => 'EMAIL_SENT',

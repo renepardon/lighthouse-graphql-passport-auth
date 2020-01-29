@@ -1,10 +1,10 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
+namespace Renepardon\LighthouseGraphQLPassport\Tests;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Joselfonseca\LighthouseGraphQLPassport\HasLoggedInTokens;
+use Renepardon\LighthouseGraphQLPassport\HasLoggedInTokens;
 use Laravel\Passport\HasApiTokens;
 
 /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
+namespace Renepardon\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
 use Illuminate\Support\Facades\Notification;
-use Joselfonseca\LighthouseGraphQLPassport\Notifications\VerifyEmail;
-use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
-use Joselfonseca\LighthouseGraphQLPassport\Tests\UserVerifyEmail;
+use Renepardon\LighthouseGraphQLPassport\Notifications\VerifyEmail;
+use Renepardon\LighthouseGraphQLPassport\Tests\TestCase;
+use Renepardon\LighthouseGraphQLPassport\Tests\UserVerifyEmail;
 
 class Register extends TestCase
 {
